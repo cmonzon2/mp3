@@ -34,6 +34,11 @@ app.use(bodyParser.json());
 // Use routes as a module (see index.js)
 require('./routes')(app, router);
 
+// check if server is running
+app.get('/', (req, res) => {
+  res.send('Server is running!');
+});
+
 // Start the server
 app.listen(port);
 console.log('Server running on port ' + port);
