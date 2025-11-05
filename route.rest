@@ -1,0 +1,51 @@
+GET http://localhost:3000/api/users
+
+###
+GET http://localhost:3000/api/tasks/
+
+###
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "name": "PostTest",
+  "email": "john@mulaney.com",
+  "pendingTasks": []
+}
+
+###
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "name": "PostTest2",
+  "email": "john@mulaney.com",
+  "pendingTasks": []
+}
+
+###
+PUT http://localhost:3000/api/users/690ad966b7ae72819b4a7408
+Content-Type: application/json
+
+{
+  "name": "PostTest2",
+  "email": "john@mulaney.com",
+  "pendingTasks": []
+}
+
+
+###
+DELETE http://localhost:3000/api/users/690ac3019f6267fdbb26767a
+
+###
+POST http://localhost:3000/api/tasks
+Content-Type: application/json
+
+{
+  "name": "Write a comedy special",
+  "description": "test desc",
+  "deadline": "2025-12-01T00:00:00.000Z",
+  "completed": false,
+  "assignedUser": "690ad966b7ae72819b4a7408",
+  "assignedUserName": "PostTest2"
+}
