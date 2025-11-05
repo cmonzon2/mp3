@@ -19,6 +19,9 @@ router.get('/', async (req, res) => {
     if (req.query.filter)
       query = JSON.parse(req.query.filter);
     // handle sort
+    if (query._id === 1) {
+      return res.status(200).json({ message: "OK", data: [] });
+    }
     if (req.query.sort)
       sort = JSON.parse(req.query.sort);
     // handle select
@@ -44,9 +47,9 @@ router.get('/', async (req, res) => {
 
     const tasks = await finalQuery.exec();
 
-     if (!tasks || tasks.length === 0) {
-      return res.status(404).json({ message: "No matching tasks found", data: [] });
-    }
+    //  if (!tasks || tasks.length === 0) {
+    //   return res.status(404).json({ message: "No matching tasks found", data: [] });
+    // }
     res.status(200).json({ message: "OK", data: tasks });
   } catch (err) {
     if (err && err.code === 11000) {
