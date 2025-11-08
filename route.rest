@@ -3,6 +3,10 @@ GET http://localhost:3000/api/users
 ###
 GET http://localhost:3000/api/tasks/
 
+
+###
+GET http://localhost:3000/api/tasks?sort={"_id":-1}&limit=5
+
 ###
 POST http://localhost:3000/api/users
 Content-Type: application/json
@@ -24,6 +28,16 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "name": "PostTest3",
+  "email": "norm@mcdo.com",
+  "pendingTasks": []
+}
+
+###
 PUT http://localhost:3000/api/users/690ad966b7ae72819b4a7408
 Content-Type: application/json
 
@@ -35,7 +49,10 @@ Content-Type: application/json
 
 
 ###
-DELETE http://localhost:3000/api/users/690ac3019f6267fdbb26767a
+DELETE http://localhost:3000/api/users/690ad966b7ae72819b4a7408
+
+###
+DELETE http://localhost:3000/api/tasks/690e8c95936ee9bea7e13412
 
 ###
 POST http://localhost:3000/api/tasks
@@ -47,5 +64,47 @@ Content-Type: application/json
   "deadline": "2025-12-01T00:00:00.000Z",
   "completed": false,
   "assignedUser": "690ad966b7ae72819b4a7408",
+  "assignedUserName": "PostTest2"
+}
+
+###
+POST http://localhost:3000/api/tasks
+Content-Type: application/json
+
+{
+  "name": "Write a goofy special",
+  "description": "test desc2",
+  "deadline": "2025-12-01T00:00:00.000Z",
+  "completed": false,
+  "assignedUser": "690a78ef43f6faa9cd6a5b67",
+  "assignedUserName": "christopher wilson"
+}
+
+###
+DELETE http://localhost:3000/api/tasks/690e8d7cc5888159a3399570
+
+###
+PUT http://localhost:3000/api/tasks/690e8d7cc5888159a3399570
+Content-Type: application/json
+
+{
+  "name": "Write a comedy special",
+  "description": "test desc2",
+  "deadline": "2025-12-01T00:00:00.000Z",
+  "completed": false,
+  "assignedUser": "690a78ef43f6faa9cd6a5b67",
+  "assignedUserName": "PostTest2"
+}
+
+###
+PUT http://localhost:3000/api/tasks/690e8c95936ee9bea7e13419
+Content-Type: application/json
+
+{
+  "name": "Write a tragedy special",
+  "description": "test desc3",
+  "deadline": "2025-12-01T00:00:00.000Z",
+  "completed": false,
+  "assignedUser": "690a78ef43f6faa9cd6a5b67",
   "assignedUserName": "PostTest2"
 }

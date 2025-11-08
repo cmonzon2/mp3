@@ -73,11 +73,9 @@ router.post('/', async (req, res) => {
   try {
     const { name, email } = req.body;
     if (!name) {
-      // bad request
       return res.status(400).json({ message: "Missing name", data: null });
     }
     if (!email) {
-      // bad request
       return res.status(400).json({ message: "Missing email", data: null });
     }
 
@@ -101,8 +99,8 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    // if (!user)
-    //   return res.status(404).json({ message: "User not found", data: null });
+    if (!user)
+      return res.status(404).json({ message: "User not found", data: null });
 
     const { name, email, pendingTasks } = req.body;
 
@@ -134,8 +132,8 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    // if (!user)
-    //   return res.status(404).json({ message: "User not found", data: null });
+    if (!user)
+      return res.status(404).json({ message: "User not found", data: null });
 
     // Unassign all pending tasks
     await Task.updateMany(

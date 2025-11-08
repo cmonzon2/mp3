@@ -19,6 +19,7 @@ router.get('/', async (req, res) => {
     if (req.query.filter)
       query = JSON.parse(req.query.filter);
     // handle sort
+    // hard coded handling query id for running db scripts
     if (query._id === 1) {
       return res.status(200).json({ message: "OK", data: [] });
     }
@@ -52,6 +53,7 @@ router.get('/', async (req, res) => {
     // }
     res.status(200).json({ message: "OK", data: tasks });
   } catch (err) {
+    // handle duplicates
     if (err && err.code === 11000) {
       return res.status(409).json({ message: "Duplicate value entered", data: err.message });
     }
@@ -63,36 +65,27 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    // const { name, description, deadline, assignedUser, assignedUserName, completed } = req.body;
+    const { name, description, deadline, assignedUser, assignedUserName, completed } = req.body;
 
-    if (!req.body.name) {
+    if (!name) {
       return res.status(400).json({ message: "Missing name", data: null });
     }
-    if (!req.body.deadline) {
+    if (!deadline) {
       return res.status(400).json({ message: "Missing deadline", data: null });
     }
     let newTask = new Task({
-      name: req.body.name,
-      description: req.body.description,
-      deadline: req.body.deadline,
-      assignedUser: req.body.assignedUser,
-      assignedUserName: req.body.assignedUserName,
-      completed: req.body.completed === true,
+      name: name,
+      description: description,
+      deadline: deadline,
+      assignedUser: assignedUser,
+      assignedUserName: assignedUserName,
+      completed: completed === true,
       dateCreated: new Date()
     });
 
     const savedTask = await newTask.save();
 
-    // // add to pending tasks
-    // if (assignedUser && !savedTask.completed) {
-    //   const user2 = await User.findById(assignedUser);
-    //   if (user2) {
-    //     user2.pendingTasks.push(savedTask._id);
-    //     await user2.save();
-    //   }
-    // }
-
-    return res.status(201).json({message: "Task created",
+    return res.status(201).json({message: "Task successfully created",
       data: {
         _id: savedTask._id,
         name: savedTask.name,
@@ -116,6 +109,8 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({ message: "Task not found", data: null });
 
     const { name, description, deadline, completed, assignedUser, assignedUserName } = req.body;
+
+    // PUT a Task with assignedUser and assignedUserName
 
     // Reassigned task -> remove from old user's pendingTasks
     if (task.assignedUser) {
@@ -156,6 +151,7 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
+    // DELETE a Task should remove the task from its assignedUser's pendingTasks
     const task = await Task.findById(req.params.id);
     if (!task)
       return res.status(404).json({ message: "Task not found", data: null });
